@@ -1,4 +1,4 @@
-import snapplogo from "../../assets/snapp-box-logo.svg";
+import snapplogo from "../../../assets/snapp-box-logo.svg";
 
 
 export default function Desktopfotter(){

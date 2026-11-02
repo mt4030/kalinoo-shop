@@ -1,7 +1,7 @@
-import a from '../assets/feture-1.webp'
-import b from '../assets/feture-2.webp'
-import c from '../assets/feture-3.webp'
-import d from '../assets/feture-4.webp'
+import a from '../../assets/feture-1.webp'
+import b from '../../assets/feture-2.webp'
+import c from '../../assets/feture-3.webp'
+import d from '../../assets/feture-4.webp'
 
 const Imageadfeture =()=>{
 

@@ -1,6 +1,6 @@
 
 import { Link } from "react-router-dom";
-import suggestionim from "../../assets/suggestion.gif";
+import suggestionim from "../../../assets/suggestion.gif";
 
 type SearchProduct = {
   id: number;

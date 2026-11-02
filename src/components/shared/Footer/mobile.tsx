@@ -1,4 +1,4 @@
-import snapplogo from "../../assets/snapp-box-logo.svg";
+import snapplogo from "../../../assets/snapp-box-logo.svg";
 import FooterAccordion from "./FooterAccordion";
 
 export default function Mobilefooter(){

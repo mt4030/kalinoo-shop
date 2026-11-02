@@ -1,4 +1,4 @@
-import smartphoneBanner from "../../assets/smartphones.webp"
+import smartphoneBanner from "../../../assets/smartphones.webp"
 
 export const categoryCarouselData = {
   smartphones: {

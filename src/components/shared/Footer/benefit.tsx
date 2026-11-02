@@ -1,6 +1,6 @@
-import FastDelivery from "../../assets/FastDelivery.webp";
-import Warranty from "../../assets/Warranty.webp";
-import Support from "../../assets/Support.webp";
+import FastDelivery from "../../../assets/FastDelivery.webp";
+import Warranty from "../../../assets/Warranty.webp";
+import Support from "../../../assets/Support.webp";
 
 const benefits = [
   {

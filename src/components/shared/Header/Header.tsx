@@ -1,5 +1,5 @@
 import SearchInput from '@/features/search/components/Search';
-import logo from '../../assets/text-logo.webp'
+import logo from '../../../assets/text-logo.webp'
 import AboveNavImg from './aboveNavImg';
 import HeaderNav from './HeaderNav';
 import HeaderTop from './HeaderTop';

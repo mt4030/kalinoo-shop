@@ -1,12 +1,12 @@
 
 import { Link } from "react-router-dom"
-import car from "../assets/categories/car.jpg"
-import cloth from "../assets/categories/cloth.jpg"
-import furniture from "../assets/categories/furnicher.jpg"
-import groceries from "../assets/categories/groceries.jpg"
-import laptop from "../assets/categories/laptop.jpg"
-import beauty from "../assets/categories/beauty.jpg"
-import sports from "../assets/categories/sport.jpg"
+import car from "../../../assets/categories/car.jpg"
+import cloth from "../../../assets/categories/cloth.jpg"
+import furniture from "../../../assets/categories/furnicher.jpg"
+import groceries from "../../../assets/categories/groceries.jpg"
+import laptop from "../../../assets/categories/laptop.jpg"
+import beauty from "../../../assets/categories/beauty.jpg"
+import sports from "../../../assets/categories/sport.jpg"
 
 
 const Category = () => {

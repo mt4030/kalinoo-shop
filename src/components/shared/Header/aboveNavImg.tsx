@@ -1,4 +1,4 @@
-import bigtop from '../../assets/bigtop.gif'
+import bigtop from '../../../assets/bigtop.gif'
    
 
 const AboveNavImg=()=>{
