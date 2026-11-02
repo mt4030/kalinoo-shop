@@ -7,8 +7,7 @@ const { id } = useParams();
 const productId = Number(id);
 
 const { data, isPending, isError} =useProductReviews(productId);
-console.log("Product ID:", productId);
-console.log("Reviews:", data);
+
 
   if (isPending) return <p>Loading reviews...</p>;
 

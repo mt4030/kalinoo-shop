@@ -1,4 +1,6 @@
 
+import CartQuantityControl from "@/features/cart/components/CartQuantityControl";
+import { useCartStore } from "@/features/cart/store/cartStore";
 import ProductGallery from "@/features/products/components/ProductGallery";
 import ProductTopBar from "@/features/products/components/ProductTop";
 import { useProduct } from "@/features/products/hooks/useProduct";
@@ -11,7 +13,11 @@ export default function ProductPage(){
 const {id}=useParams()
   const productId = Number(id);
 const{data, isPending, isError, error}=useProduct(productId)
+const addItem = useCartStore((state) => state.addItem);
 
+const cartItem = useCartStore((state) =>
+  state.items.find((item) => item.productId === productId)
+);
 if (!id || !Number.isInteger(productId) || productId <= 0) {
   return <p>شناسه محصول معتبر نیست.</p>;
 }
@@ -59,9 +65,20 @@ return(
         قیمت با درصد تخفیف{data?.price}
       </div>
 
-      <button className="w-full rounded-xl bg-purple-600 py-3 font-bold text-white transition hover:bg-purple-700">
-        افزودن به سبد خرید
-      </button>
+    {cartItem ? (
+  <CartQuantityControl
+    productId={productId}
+    quantity={cartItem.quantity}
+  />
+) : (
+  <button
+    type="button"
+    onClick={() => addItem(data)}
+    className="w-full rounded-xl bg-purple-600 py-3 font-bold text-white transition hover:bg-purple-700"
+  >
+    افزودن به سبد خرید
+  </button>
+)}
     </div>
     
   </div>
