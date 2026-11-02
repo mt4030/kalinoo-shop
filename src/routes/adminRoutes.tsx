@@ -1,5 +1,6 @@
+import AdminLayout from "@/app/layouts/AdminLayout";
 import AdminRoute from "../guards/AdminRoute";
-import AdminLayout from "../layouts/AdminLayout";
+
 
 export const adminRoutes = {
 

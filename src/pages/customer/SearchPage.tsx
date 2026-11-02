@@ -1,11 +1,10 @@
 
-import ProductCard from "@/features/ProductCard/ProductCard";
-import SidebarFilter from "@/components/filtering/sidebarFilter";
 
-import { useCategories } from "@/hooks/useCategories";
-import { useBrands } from "@/hooks/useBrands";
-import { useSearchPageProducts } from "@/hooks/useSearchPageProducts";
-
+import { useBrands } from "@/features/categories/hooks/useBrands";
+import { useCategories } from "@/features/categories/hooks/useCategories";
+import ProductCard from "@/features/products/components/ProductCard";
+import SidebarFilter from "@/features/search/components/SidebarFilter";
+import { useSearchPageProducts } from "@/features/search/hooks/useSearchPageProducts";
 import { useEffect, useState } from "react";
 import { useSearchParams } from "react-router-dom";
 

@@ -1,8 +1,8 @@
+import { HeroCarousel } from "@/components/shared/carousel/HeroCarousel";
+import Imageadfeture from "@/components/shared/ImageAdFeature";
+import Category from "@/features/categories/components/CategoriesIcon";
+import { CarouselCategory } from "@/features/categories/components/CategoryCarousel";
 
-import { HeroCarousel } from "../../components/carousel/HeroCarousel";
-import { CarouselCategory } from "@/components/category carosels/catcarosel";
-import Imageadfeture from "@/components/imageadfeture";
-import Category from "@/components/categoriesicon";
 
 
 

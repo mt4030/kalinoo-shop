@@ -1,6 +1,7 @@
+import AuthLayout from "@/app/layouts/AuthLayout"
 import LoginPage  from "../pages/auth/LoginPage "
 import RegisterPage from "../pages/auth/RegisterPage"
-import AuthLayout from "../layouts/AuthLayout"
+
 import ErrorPage from "../pages/ErrorPage"
 
 

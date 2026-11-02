@@ -1,8 +1,10 @@
-import ProductGallery from "@/components/product/ProductGallery";
-import ProductTopBar from "@/components/product/producttop";
+
+import ProductGallery from "@/features/products/components/ProductGallery";
+import ProductTopBar from "@/features/products/components/ProductTop";
+import { useProduct } from "@/features/products/hooks/useProduct";
+import Reviewsection from "@/features/reviews/components/ReviewSection";
 import { useParams } from "react-router-dom"
-import {useProduct} from '../../hooks/useProduct'
-import Reviewsection from "./reviewsection";
+
 
 export default function ProductPage(){
 
