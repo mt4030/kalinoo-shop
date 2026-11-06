@@ -19,7 +19,7 @@ return(
 <div className="flex-1 mx-auto w-full max-w-360 px-4 md:px-6 lg:px-8">
 <CarouselCategory category="smartphones" />
 <Imageadfeture/>
-<CarouselCategory category="beauty" />
+<CarouselCategory category="groceries" />
 <Category/>
 <CarouselCategory category="groceries" />
 <CarouselCategory category="laptops" />

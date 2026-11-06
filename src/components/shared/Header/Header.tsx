@@ -1,9 +1,8 @@
 import SearchInput from '@/features/search/components/Search';
-import logo from '../../../assets/text-logo.webp'
+import logo from '../../../assets/Kalinoo-icon.png'
 import AboveNavImg from './aboveNavImg';
 import HeaderNav from './HeaderNav';
 import HeaderTop from './HeaderTop';
-
 import MobileBottomNav from './mobilenav';
 import { useLocation } from 'react-router-dom';
 export default function Header(){
@@ -12,21 +11,16 @@ const isProductPage = location.pathname.startsWith("/product/")
 
 return(
    <> 
-   
-<AboveNavImg/>
 
+<AboveNavImg/>
 <div className={`sm:hidden ${isProductPage ? "relative top-4" : ""}`}>
   <SearchInput />
 </div>
 
-
 <MobileBottomNav/>
-<nav className="flex relative z-50 flex-col p-2 px-40 border-b border-zinc-200 hidden sm:block">
-   
+<nav className="flex relative z-50 flex-col p-2 px-10 lg:px-40 border-b border-zinc-200 hidden sm:block">
 <HeaderTop logo={logo}/>
-
 <div className='flex gap-5'>
-   
 </div>
 <HeaderNav />
 

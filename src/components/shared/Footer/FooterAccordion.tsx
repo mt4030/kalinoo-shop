@@ -10,21 +10,21 @@ export default function FooterAccordion() {
     <Accordion  className="w-full">
       <AccordionItem value="about" className="border-b-zinc-300">
         <AccordionTrigger>
-          با اسنپ شاپ
+          با کالینو شاپ
         </AccordionTrigger>
 
         <AccordionContent>
           <ul className="space-y-4 text-sm text-zinc-600">
-            <li className="cursor-pointer transition hover:text-purple-600">
-              در اسنپ شاپ فروشنده شوید
+            <li className="cursor-pointer transition hover:text-[#2457D6]">
+              در کالینو شاپ فروشنده شوید
             </li>
 
-            <li className="cursor-pointer transition hover:text-purple-600">
-              تماس با اسنپ شاپ
+            <li className="cursor-pointer transition hover:text-[#2457D6]">
+              تماس با کالینو شاپ
             </li>
 
-            <li className="cursor-pointer transition hover:text-purple-600">
-              درباره اسنپ شاپ
+            <li className="cursor-pointer transition hover:text-[#2457D6]">
+              درباره کالینو شاپ
             </li>
           </ul>
         </AccordionContent>
@@ -37,15 +37,15 @@ export default function FooterAccordion() {
 
         <AccordionContent>
           <ul className="space-y-4 text-sm text-zinc-600">
-            <li className="cursor-pointer transition hover:text-purple-600">
+            <li className="cursor-pointer transition hover:text-[#2457D6]">
               پرسش‌های متداول
             </li>
 
-            <li className="cursor-pointer transition hover:text-purple-600">
-              روش‌های مرجوعی کالا در اسنپ شاپ
+            <li className="cursor-pointer transition hover:text-[#2457D6]0">
+              روش‌های مرجوعی کالا در کالینو شاپ
             </li>
 
-            <li className="cursor-pointer transition hover:text-purple-600">
+            <li className="cursor-pointer transition hover:text-[#2457D6]">
               قوانین و شرایط استفاده
             </li>
           </ul>
@@ -54,16 +54,16 @@ export default function FooterAccordion() {
 
       <AccordionItem value="shopping-guide" >
         <AccordionTrigger className='' >
-          راهنمای خرید از اسنپ شاپ
+          راهنمای خرید از کالینو شاپ
         </AccordionTrigger >
 
         <AccordionContent >
           <ul className="space-y-4 text-sm text-zinc-600 ">
-            <li className="cursor-pointer transition hover:text-purple-600">
+            <li className="cursor-pointer transition hover:text-[#2457D6]">
               ثبت سفارش
             </li>
 
-            <li className="cursor-pointer transition hover:text-purple-600">
+            <li className="cursor-pointer transition hover:text-[#2457D6]">
               رویه‌های ارسال سفارش
             </li>
           </ul>

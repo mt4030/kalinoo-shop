@@ -3,12 +3,12 @@ import { useEffect, useState } from "react";
 import { useSearchParams } from "react-router-dom";
 
 import { Button } from "../../../@/components/ui/button";
+
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
-  SelectValue,
 } from "../../../@/components/ui/select";
 
 import { useBrands } from "@/features/categories/hooks/useBrands";
@@ -32,7 +32,98 @@ const SORT_OPTIONS = [
 
 type SortBy = (typeof SORT_OPTIONS)[number]["value"];
 
-// Read price values safely from URL.
+// --------------------------------------------------
+// EMPTY RESULTS ILLUSTRATION
+// --------------------------------------------------
+
+function EmptyResultsIllustration() {
+  return (
+    <svg
+      viewBox="0 0 320 220"
+      role="img"
+      aria-label="محصولی پیدا نشد"
+      className="h-40 w-56 sm:h-48 sm:w-64"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <circle cx="160" cy="105" r="85" fill="#EFF6FF" />
+
+      {/* Product box */}
+      <path
+        d="M105 91L160 64L215 91V151L160 180L105 151V91Z"
+        fill="white"
+        stroke="#60A5FA"
+        strokeWidth="3"
+        strokeLinejoin="round"
+      />
+
+      <path
+        d="M105 91L160 120L215 91"
+        stroke="#60A5FA"
+        strokeWidth="3"
+        strokeLinejoin="round"
+      />
+
+      <path
+        d="M160 120V180"
+        stroke="#60A5FA"
+        strokeWidth="3"
+      />
+
+      <path
+        d="M137 78L190 108"
+        stroke="#DBEAFE"
+        strokeWidth="3"
+        strokeLinecap="round"
+      />
+
+      {/* Magnifying glass */}
+      <circle
+        cx="205"
+        cy="132"
+        r="29"
+        fill="white"
+        stroke="#2457D6"
+        strokeWidth="6"
+      />
+
+      <path
+        d="M226 153L245 172"
+        stroke="#2457D6"
+        strokeWidth="8"
+        strokeLinecap="round"
+      />
+
+      <path
+        d="M194 132H216"
+        stroke="#60A5FA"
+        strokeWidth="3"
+        strokeLinecap="round"
+      />
+
+      {/* Small decorative elements */}
+      <circle cx="79" cy="66" r="5" fill="#60A5FA" />
+      <circle cx="247" cy="68" r="4" fill="#DBEAFE" />
+
+      <path
+        d="M80 139L88 139"
+        stroke="#2457D6"
+        strokeWidth="3"
+        strokeLinecap="round"
+      />
+
+      <path
+        d="M235 43L240 53L250 58L240 63L235 73L230 63L220 58L230 53L235 43Z"
+        fill="#60A5FA"
+      />
+    </svg>
+  );
+}
+
+// --------------------------------------------------
+// READ PRICE PARAMS
+// --------------------------------------------------
+
 function readPriceParam(
   value: string | null,
   fallback: number
@@ -45,6 +136,10 @@ function readPriceParam(
 
   return Math.min(MAX_PRICE, Math.max(MIN_PRICE, parsed));
 }
+
+// --------------------------------------------------
+// SEARCH PAGE
+// --------------------------------------------------
 
 export default function SearchPage() {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -72,12 +167,12 @@ export default function SearchPage() {
     MAX_PRICE
   );
 
-  // Keep the range valid even if someone manually edits the URL.
   const minPrice = Math.min(urlMinPrice, urlMaxPrice);
   const maxPrice = Math.max(urlMinPrice, urlMaxPrice);
 
   // Rating
   const rawMinRating = searchParams.get("minRating");
+
   const parsedMinRating =
     rawMinRating === null ? NaN : Number(rawMinRating);
 
@@ -95,11 +190,19 @@ export default function SearchPage() {
   // Sorting
   const rawSortBy = searchParams.get("sortBy");
 
+  // Support old misspelled URL value.
+  const normalizedSortBy =
+    rawSortBy === "price_accs" ? "price_asc" : rawSortBy;
+
   const sortBy: SortBy = SORT_OPTIONS.some(
-    (option) => option.value === rawSortBy
+    (option) => option.value === normalizedSortBy
   )
-    ? (rawSortBy as SortBy)
+    ? (normalizedSortBy as SortBy)
     : "price_asc";
+
+  const selectedSortLabel =
+    SORT_OPTIONS.find((option) => option.value === sortBy)?.label ??
+    "مرتب‌سازی";
 
   // --------------------------------------------------
   // 2. FETCH CATEGORIES AND BRANDS
@@ -118,7 +221,7 @@ export default function SearchPage() {
   } = useBrands(category);
 
   // --------------------------------------------------
-  // 3. RESET PAGINATION WHEN URL FILTERS CHANGE
+  // 3. RESET PAGINATION WHEN FILTERS CHANGE
   // --------------------------------------------------
 
   const searchParamsKey = searchParams.toString();
@@ -131,8 +234,6 @@ export default function SearchPage() {
   // 4. FILTER HANDLERS
   // --------------------------------------------------
 
-  // Category: single selection.
-  // Changing category also clears selected brands.
   const handleCategoryChange = (slug: string) => {
     setSearchParams((currentParams) => {
       const nextParams = new URLSearchParams(currentParams);
@@ -169,7 +270,7 @@ export default function SearchPage() {
     });
   };
 
-  // Price: update URL only after the slider is released.
+  // Price
   const handlePriceChange = (min: number, max: number) => {
     const safeMin = Math.max(
       MIN_PRICE,
@@ -200,7 +301,7 @@ export default function SearchPage() {
     });
   };
 
-  // Rating: one minimum rating threshold.
+  // Rating
   const handleMinRatingChange = (
     value: number | undefined
   ) => {
@@ -217,7 +318,7 @@ export default function SearchPage() {
     });
   };
 
-  // Discount: on/off.
+  // Discount
   const handleDiscountedChange = (checked: boolean) => {
     setSearchParams((currentParams) => {
       const nextParams = new URLSearchParams(currentParams);
@@ -232,7 +333,7 @@ export default function SearchPage() {
     });
   };
 
-  // Sorting.
+  // Sorting
   const handleSortChange = (value: SortBy) => {
     setSearchParams((currentParams) => {
       const nextParams = new URLSearchParams(currentParams);
@@ -247,7 +348,7 @@ export default function SearchPage() {
     });
   };
 
-  // Clear filters but preserve the search query and sorting.
+  // Clear filters but preserve search query and sorting.
   const handleClearFilters = () => {
     setSearchParams((currentParams) => {
       const nextParams = new URLSearchParams(currentParams);
@@ -267,8 +368,30 @@ export default function SearchPage() {
     });
   };
 
+  // Return to the default product listing.
+  const handleShowAllProducts = () => {
+    setSearchParams((currentParams) => {
+      const nextParams = new URLSearchParams(currentParams);
+
+      [
+        "q",
+        "category",
+        "brand",
+        "minPrice",
+        "maxPrice",
+        "minRating",
+        "discounted",
+        "sortBy",
+      ].forEach((key) => {
+        nextParams.delete(key);
+      });
+
+      return nextParams;
+    });
+  };
+
   // --------------------------------------------------
-  // 5. FETCH FILTERED PRODUCTS FROM SUPABASE
+  // 5. FETCH PRODUCTS
   // --------------------------------------------------
 
   const {
@@ -302,19 +425,7 @@ export default function SearchPage() {
   const totalPages = Math.ceil(total / PAGE_SIZE);
 
   // --------------------------------------------------
-  // 6. EMPTY SEARCH STATE
-  // --------------------------------------------------
-
-  if (!query.trim() && !category.trim()) {
-    return (
-      <p className="m-10 text-center text-zinc-500">
-        لطفاً محصولی را جستجو کنید.
-      </p>
-    );
-  }
-
-  // --------------------------------------------------
-  // 7. PAGE LAYOUT
+  // 6. PAGE LAYOUT
   // --------------------------------------------------
 
   return (
@@ -322,43 +433,48 @@ export default function SearchPage() {
       dir="rtl"
       className="mx-auto max-w-7xl px-4 py-8 md:px-8"
     >
-      <div className="grid grid-cols-1 items-start gap-6 lg:grid-cols-[260px_minmax(0,1fr)]">
+      <div
+        className="
+          grid grid-cols-1
+          items-start gap-6
+          lg:grid-cols-[16rem_minmax(0,1fr)]
+        "
+      >
+        {/* FILTER SIDEBAR */}
+        <div className="min-w-0">
+          <SidebarFilter
+            categories={categories}
+            selectedCategory={category}
+            onCategoryChange={handleCategoryChange}
+            isCategoriesLoading={isCategoriesLoading}
+            isCategoriesError={isCategoriesError}
+            brands={brands}
+            selectedBrands={selectedBrands}
+            onBrandChange={handleBrandChange}
+            isBrandsLoading={isBrandsLoading}
+            isBrandsError={isBrandsError}
+            minPrice={minPrice}
+            maxPrice={maxPrice}
+            onPriceChange={handlePriceChange}
+            minRating={minRating}
+            onMinRatingChange={handleMinRatingChange}
+            discountedOnly={discountedOnly}
+            onDiscountedOnlyChange={handleDiscountedChange}
+            onClearFilters={handleClearFilters}
+          />
+        </div>
 
-        {/* -------------------------------------------
-            FILTER SIDEBAR
-            Always rendered, even when products fetch.
-        -------------------------------------------- */}
-
-        <SidebarFilter
-          categories={categories}
-          selectedCategory={category}
-          onCategoryChange={handleCategoryChange}
-          isCategoriesLoading={isCategoriesLoading}
-          isCategoriesError={isCategoriesError}
-          brands={brands}
-          selectedBrands={selectedBrands}
-          onBrandChange={handleBrandChange}
-          isBrandsLoading={isBrandsLoading}
-          isBrandsError={isBrandsError}
-          minPrice={minPrice}
-          maxPrice={maxPrice}
-          onPriceChange={handlePriceChange}
-          minRating={minRating}
-          onMinRatingChange={handleMinRatingChange}
-          discountedOnly={discountedOnly}
-          onDiscountedOnlyChange={handleDiscountedChange}
-          onClearFilters={handleClearFilters}
-        />
-
-        {/* -------------------------------------------
-            PRODUCTS SECTION
-        -------------------------------------------- */}
-
+        {/* PRODUCTS SECTION */}
         <main className="min-w-0">
 
-          {/* Results header and sorting */}
-          <div className="mb-6 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-
+          {/* Results Header and Sorting */}
+          <div
+            className="
+              mb-6 flex flex-col gap-4
+              sm:flex-row sm:items-center
+              sm:justify-between
+            "
+          >
             <div className="flex items-center gap-3">
               <p className="text-sm text-zinc-600">
                 {total.toLocaleString("fa-IR")} محصول پیدا شد
@@ -371,6 +487,7 @@ export default function SearchPage() {
               )}
             </div>
 
+            {/* Sorting */}
             <div className="flex items-center gap-2">
               <span className="shrink-0 text-sm text-zinc-500">
                 مرتب‌سازی:
@@ -384,15 +501,38 @@ export default function SearchPage() {
                   }
                 }}
               >
-                <SelectTrigger className="w-[190px]">
-                  <SelectValue placeholder="مرتب‌سازی" />
+                <SelectTrigger
+                  dir="rtl"
+                  className="
+                    w-[190px]
+                    border border-[#DBEAFE]
+                    bg-white text-[#172554]
+                    shadow-sm
+                    focus:ring-2 focus:ring-[#DBEAFE]
+                  "
+                >
+                  <span className="truncate">
+                    {selectedSortLabel}
+                  </span>
                 </SelectTrigger>
 
-                <SelectContent>
+                <SelectContent
+                  dir="rtl"
+                  className="
+                    z-[100]
+                    border border-zinc-200
+                    bg-white text-[#172554]
+                    shadow-xl
+                  "
+                >
                   {SORT_OPTIONS.map((option) => (
                     <SelectItem
                       key={option.value}
                       value={option.value}
+                      className="
+                        focus:bg-[#EFF6FF]
+                        focus:text-[#173B8F]
+                      "
                     >
                       {option.label}
                     </SelectItem>
@@ -402,50 +542,95 @@ export default function SearchPage() {
             </div>
           </div>
 
-          {/* Initial loading */}
-          {isPending && !data ? (
-            <p className="py-16 text-center text-zinc-500">
-              در حال بارگذاری محصولات...
-            </p>
-          ) : isError && !data ? (
-            <p className="py-16 text-center text-red-500">
-              {error instanceof Error
-                ? error.message
-                : "خطا در دریافت محصولات"}
-            </p>
-          ) : products.length === 0 ? (
-            <div className="py-16 text-center">
-              <h3 className="text-lg font-semibold">
-                محصولی پیدا نشد
-              </h3>
+          {/* -------------------------------------------
+              LOADING / ERROR / EMPTY / PRODUCTS
+          -------------------------------------------- */}
 
-              <p className="mt-2 text-sm text-zinc-500">
-                فیلترها را تغییر دهید یا پاک کنید.
-              </p>
+          {/* LOADING / ERROR / EMPTY / PRODUCTS */}
 
-              <Button
-                variant="outline"
-                className="mt-4"
-                onClick={handleClearFilters}
-              >
-                پاک کردن فیلترها
-              </Button>
-            </div>
-          ) : (
-            <div className="grid grid-cols-2 gap-4 md:grid-cols-3 xl:grid-cols-4">
-              {products.map((product) => (
-                <ProductCard
-                  key={product.id}
-                  product={product}
-                />
-              ))}
-            </div>
-          )}
+{isPending && !data ? (
+  <div
+    className="
+      flex min-h-[400px]
+      items-center justify-center
+      rounded-xl border border-zinc-200
+      bg-white
+    "
+  >
+    <p className="text-sm text-zinc-500">
+      در حال بارگذاری محصولات...
+    </p>
+  </div>
+) : isError && !data ? (
+  <div
+    className="
+      flex min-h-[400px]
+      items-center justify-center
+      rounded-xl border border-zinc-200
+      bg-white p-6 text-center
+    "
+  >
+    <p className="text-sm text-red-500">
+      {error instanceof Error
+        ? error.message
+        : "خطا در دریافت محصولات"}
+    </p>
+  </div>
+) : products.length === 0 ? (
+  <div
+    className="
+      flex min-h-[420px]
+      flex-col items-center justify-center
+      rounded-xl border border-zinc-200
+      bg-white px-5 py-10 text-center
+    "
+  >
+    <EmptyResultsIllustration />
+
+    <h2 className="mt-4 text-base font-bold text-[#172554]">
+      محصولی پیدا نشد
+    </h2>
+
+    <p className="mt-2 max-w-sm text-sm leading-6 text-zinc-500">
+      متأسفانه محصولی با مشخصات و فیلترهای انتخاب‌شده پیدا نکردیم.
+      می‌توانید فیلترها را تغییر دهید یا همه محصولات را مشاهده کنید.
+    </p>
+
+    <Button
+      onClick={handleShowAllProducts}
+      className="
+        mt-5 rounded-lg bg-[#2457D6]
+        px-6 text-white hover:bg-[#173B8F]
+      "
+    >
+      مشاهده همه محصولات
+    </Button>
+  </div>
+) : (
+  <div
+    className="
+      grid grid-cols-2 gap-4
+      md:grid-cols-3
+      xl:grid-cols-4
+    "
+  >
+    {products.map((product) => (
+      <ProductCard
+        key={product.id}
+        product={product}
+      />
+    ))}
+  </div>
+)}
 
           {/* Pagination */}
           {totalPages > 1 && (
-            <div className="mt-10 flex items-center justify-center gap-4">
-
+            <div
+              className="
+                mt-10 flex items-center
+                justify-center gap-4
+              "
+            >
               <Button
                 variant="outline"
                 disabled={page <= 1 || isFetching}
@@ -470,9 +655,9 @@ export default function SearchPage() {
               >
                 بعدی
               </Button>
-
             </div>
           )}
+
         </main>
       </div>
     </div>

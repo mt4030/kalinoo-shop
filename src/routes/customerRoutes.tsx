@@ -6,6 +6,7 @@ import SubcategoryPage from "../pages/customer/SubcategoryPage";
 import ProductPage from "../pages/customer/ProductPage";
 import Cart from "../pages/customer/checkout/cartpage";
 import CustomerLayout from "@/app/layouts/CustomerLayout";
+import CategoriesPage from "@/pages/customer/CategoriesPage";
 
 
 
@@ -16,7 +17,8 @@ errorElement:<ErrorPage/>,
 children:[
     {index: true,element:<HomePage/>},
     {path: 'products/search',element:<Search/>},
-      {path:'/category/:categorySlug/:subcategorySlug',element:<SubcategoryPage/>},
+    {path:'/categories',element:<CategoriesPage/>},
+    {path:'/category/:categorySlug/:subcategorySlug',element:<SubcategoryPage/>},
     {path: 'product/:id',element:<ProductPage/>}
     ,{path: 'checkout/cart',element:<Cart/>},
 

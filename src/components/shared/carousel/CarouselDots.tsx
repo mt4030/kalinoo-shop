@@ -1,37 +1,57 @@
-
 import { useEffect, useState } from "react";
+import type { CarouselDotsProps } from "@/types";
 
-export default function CarouselDots({slides,api,classname}){
-const [current, setCurrent] = useState(0)
+export default function CarouselDots({
+  slides,
+  api,
+  classname,
+}: CarouselDotsProps) {
+  const [current, setCurrent] = useState(0);
 
-useEffect(() => {
-  if (!api) return
+  useEffect(() => {
+    if (!api) return;
 
-  setCurrent(api.selectedScrollSnap())
+    const handleSelect = () => {
+      setCurrent(api.selectedScrollSnap());
+    };
 
-  api.on("select", () => {
-    setCurrent(api.selectedScrollSnap())
-  })
-}, [api])
+    handleSelect();
 
+    api.on("select", handleSelect);
 
+    return () => {
+      api.off("select", handleSelect);
+    };
+  }, [api]);
 
-
-return(
-<div   className={`left-1/2 -translate-x-1/2 bottom-5 sm:bottom-10 flex justify-center gap-2 sm:mt-4 absolute `}>
-  {slides.map((slide, index) => (
-    <button
-      key={slide.id}
-      onClick={() => api?.scrollTo(index)}
-      className={  `${classname || ""} h-2 w-2 rounded-full ${
-        current === index ? "bg-purple-500 w-5 " : "bg-gray-400"
-      }`}
-      aria-label={`Go to slide ${index + 1}`}
-    />
-  ))}
-</div>
-
-)
-
-
+  return (
+    <div
+      className={`
+        absolute bottom-5 left-1/2
+        flex -translate-x-1/2
+        justify-center gap-2
+        sm:bottom-10 sm:mt-4
+        ${classname ?? ""}
+      `}
+    >
+      {slides.map((_, index) => (
+        <button
+          key={`dot-${index}`}
+          type="button"
+          onClick={() => api?.scrollTo(index)}
+          className={`
+            h-2 rounded-full
+            transition-all duration-200
+            ${
+              current === index
+                ? "w-5 bg-[#2457D6]"
+                : "w-2 bg-gray-400"
+            }
+          `}
+          aria-label={`Go to slide ${index + 1}`}
+          aria-current={current === index ? "true" : undefined}
+        />
+      ))}
+    </div>
+  );
 }

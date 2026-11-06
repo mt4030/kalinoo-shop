@@ -1,4 +1,7 @@
 
+import { useState } from "react";
+import { Link } from "react-router-dom";
+
 import { Button } from "../../../../@/components/ui/button";
 import {
   Card,
@@ -7,8 +10,9 @@ import {
   CardHeader,
   CardTitle,
 } from "../../../../@/components/ui/card";
-import { Input } from "../../../../@/components/ui/input";
+
 import { Label } from "../../../../@/components/ui/label";
+
 import {
   Select,
   SelectContent,
@@ -24,27 +28,26 @@ import {
   Truck,
   Shield,
   ShoppingBag,
+  ArrowRight,
+  Info,
 } from "lucide-react";
 
-import { useState } from "react";
-
-import CartQuantityControl from "./CartQuantityControl";
+import CartQuantitybtn from "./cartbtn";
 import { useCartStore } from "@/features/cart/store/cartStore";
 
-interface ShippingMethod {
-  id: string;
-  name: string;
-  price: number;
-  estimatedDays: string;
-  description: string;
-}
+import type { ShippingMethod } from "@/types";
+
+const formatPrice = (price: number) => {
+  return `$${price.toLocaleString("fa-IR", {
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2,
+  })}`;
+};
 
 export default function Cartb() {
-  // Get cart data and actions from Zustand
   const items = useCartStore((state) => state.items);
   const removeItem = useCartStore((state) => state.removeItem);
 
-  // Local UI state: shipping selection doesn't belong in the cart store
   const [shippingMethod, setShippingMethod] = useState("standard");
 
   const shippingMethods: ShippingMethod[] = [
@@ -52,24 +55,27 @@ export default function Cartb() {
       id: "standard",
       name: "ارسال استاندارد",
       price: 5.99,
-      estimatedDays: "3-5 روز",
-      description: "ارسال رایگان بالای 200 دلار",
+      estimatedDays: "۳ تا ۵ روز",
+      description: "ارسال معمولی سفارش",
     },
     {
       id: "express",
-      name: "ارسال اکسپرس",
+      name: "ارسال سریع",
       price: 12.99,
-      estimatedDays: "1-2 روز",
-      description: "اولویت ارسال همراه با اطلاعات",
+      estimatedDays: "۱ تا ۲ روز",
+      description: "اولویت در ارسال سفارش",
     },
   ];
 
-  // Calculate the actual discounted price of one product
-  const getDiscountedPrice = (price: number, discount: number) => {
+  // Calculate discounted product price
+  const getDiscountedPrice = (
+    price: number,
+    discount: number
+  ) => {
     return price * (1 - discount / 100);
   };
 
-  // Calculate subtotal using Zustand cart items
+  // Calculate subtotal
   const subtotal = items.reduce((sum, item) => {
     const finalPrice = getDiscountedPrice(
       item.price,
@@ -80,63 +86,379 @@ export default function Cartb() {
   }, 0);
 
   const shipping =
-    shippingMethods.find((method) => method.id === shippingMethod)?.price ?? 0;
+    items.length > 0
+      ? shippingMethods.find(
+          (method) => method.id === shippingMethod
+        )?.price ?? 0
+      : 0;
 
   const total = subtotal + shipping;
 
-  // Total number of individual products, including quantities
+  // Total product quantities
   const totalItems = items.reduce(
     (sum, item) => sum + item.quantity,
     0
   );
 
   return (
-    <div className="mx-auto w-full max-w-7xl p-6">
-      <div className="grid grid-cols-1 gap-8 lg:grid-cols-3">
+    <main
+      dir="rtl"
+      className="
+        mx-auto min-h-dvh
+        w-full max-w-screen-2xl
+        px-3 py-5
+        sm:px-5 sm:py-7
+        lg:px-8
+      "
+    >
+      {/* PAGE HEADER */}
+      <div className="mb-6 flex items-center justify-between">
 
-        {/* Order Summary */}
-        <div className="space-y-6">
-          <Card>
-            <CardHeader>
-              <CardTitle>سبد خرید</CardTitle>
-              <CardDescription>
-                Review your order details and shipping information
+        <div>
+          <h1 className="text-lg font-bold text-[#172554] sm:text-xl">
+            سبد خرید
+          </h1>
+
+          <p className="mt-1 text-xs text-zinc-500 sm:text-sm">
+            {totalItems.toLocaleString("fa-IR")} کالا در سبد خرید
+          </p>
+        </div>
+
+        <Link
+          to="/"
+          className="
+            flex items-center gap-1
+            text-xs font-medium
+            text-[#2457D6]
+            transition hover:text-[#173B8F]
+            sm:text-sm
+          "
+        >
+          <ArrowRight size={16} />
+          ادامه خرید
+        </Link>
+
+      </div>
+
+      {/* MAIN CART LAYOUT */}
+      <div
+        className="
+          grid grid-cols-1
+          items-start gap-5
+          lg:grid-cols-[minmax(0,1fr)_340px]
+          lg:gap-7
+        "
+      >
+
+        {/* =====================================
+            MAIN CART SECTION
+            Right side on desktop
+            First section on mobile
+        ====================================== */}
+
+        <section className="min-w-0 space-y-4">
+
+          {/* CART ITEMS */}
+          {items.length === 0 ? (
+
+            /* EMPTY CART */
+            <Card className="
+              flex min-h-[350px]
+              flex-col items-center justify-center
+              gap-4 rounded-xl
+              border-zinc-200 bg-white
+              px-5 py-12 text-center
+            ">
+              <div className="
+                flex h-20 w-20 items-center
+                justify-center rounded-full
+                bg-[#EFF6FF]
+              ">
+                <ShoppingBag
+                  size={36}
+                  className="text-[#2457D6]"
+                />
+              </div>
+
+              <h2 className="text-lg font-bold text-[#172554]">
+                سبد خرید شما خالی است
+              </h2>
+
+              <p className="text-sm text-zinc-500">
+                هنوز محصولی به سبد خرید اضافه نکرده‌اید.
+              </p>
+
+              <Button
+                 className="
+                  mt-2 rounded-lg
+                  bg-[#2457D6] text-white
+                  hover:bg-[#173B8F]
+                "
+              >
+                <Link to="/">
+                  مشاهده محصولات
+                </Link>
+              </Button>
+            </Card>
+
+          ) : (
+
+            /* PRODUCT CARDS */
+            items.map((item) => {
+              const discountedPrice = getDiscountedPrice(
+                item.price,
+                item.discount_percentage
+              );
+
+              const itemTotal = discountedPrice * item.quantity;
+
+              return (
+                <Card
+                  key={item.productId}
+                  className="
+                    overflow-hidden
+                    rounded-xl
+                    border border-zinc-200
+                    bg-white shadow-none
+                    transition-colors
+                    hover:border-[#DBEAFE]
+                  "
+                >
+                  <CardContent className="p-0">
+
+                    <div
+                      className="
+                        grid
+                        grid-cols-[88px_minmax(0,1fr)]
+                        gap-3 p-3
+                        sm:grid-cols-[120px_minmax(0,1fr)]
+                        sm:gap-5 sm:p-5
+                        lg:grid-cols-[150px_minmax(0,1fr)_210px]
+                        lg:items-center lg:gap-6 lg:p-6
+                      "
+                    >
+
+                      {/* PRODUCT IMAGE */}
+                      <div className="
+                        flex h-28 w-[88px]
+                        shrink-0 items-center
+                        justify-center
+                        overflow-hidden rounded-lg
+                        bg-[#F8FAFC] p-2
+                        sm:h-32 sm:w-[120px]
+                        lg:h-36 lg:w-[150px]
+                      ">
+                        <img
+                          src={item.thumbnail}
+                          alt={item.title}
+                          width={500}
+                          height={500}
+                          className="h-full w-full object-contain"
+                        />
+                      </div>
+
+                      {/* PRODUCT DETAILS */}
+                      <div className="
+                        flex min-w-0 flex-col
+                        justify-center gap-3
+                        py-1
+                      ">
+
+                        <h3 className="
+                          line-clamp-2
+                          text-sm font-semibold
+                          leading-6 text-[#172554]
+                          sm:text-base
+                        ">
+                          {item.title}
+                        </h3>
+
+                        <div className="flex flex-wrap items-center gap-2 text-xs text-zinc-500">
+                          <Package size={14} className="text-[#2457D6]" />
+                          <span>محصول انتخاب‌شده</span>
+                        </div>
+
+                        {/* Discount */}
+                        {item.discount_percentage > 0 && (
+                          <div className="flex items-center gap-2">
+                            <span className="
+                              rounded-full
+                              bg-red-50 px-2.5 py-1
+                              text-[11px] font-semibold
+                              text-red-600
+                            ">
+                              {Number(item.discount_percentage).toLocaleString("fa-IR")}% تخفیف
+                            </span>
+                          </div>
+                        )}
+
+                      </div>
+
+                      {/* PRICE + QUANTITY + REMOVE */}
+                      <div className="
+                        col-span-2
+                        flex flex-wrap items-center
+                        justify-between gap-3
+                        border-t border-zinc-100
+                        pt-3
+                        lg:col-span-1
+                        lg:flex-col lg:items-stretch
+                        lg:justify-center lg:gap-5
+                        lg:border-r lg:border-t-0
+                        lg:border-zinc-100
+                        lg:pr-6 lg:pt-0
+                      ">
+
+                        {/* Quantity */}
+                        <div className="flex items-center">
+                          <CartQuantitybtn
+                            productId={item.productId}
+                            quantity={item.quantity}
+                          />
+                        </div>
+
+                        {/* Price */}
+                        <div className="text-left lg:text-right">
+                          <p className="
+                            text-base font-bold
+                            text-[#172554]
+                            tabular-nums sm:text-lg
+                          ">
+                            {formatPrice(itemTotal)}
+                          </p>
+
+                          {item.discount_percentage > 0 && (
+                            <p className="
+                              mt-1 text-xs
+                              text-zinc-400
+                              line-through tabular-nums
+                            ">
+                              {formatPrice(
+                                item.price * item.quantity
+                              )}
+                            </p>
+                          )}
+                        </div>
+
+                        {/* Remove */}
+                        <button
+                          type="button"
+                          onClick={() => removeItem(item.productId)}
+                          className="
+                            inline-flex items-center gap-1.5
+                            text-xs font-semibold
+                            text-[#64748B]
+                            transition-colors
+                            hover:text-red-600
+                          "
+                        >
+                          <Trash2 size={15} />
+                          حذف از سبد خرید
+                        </button>
+
+                      </div>
+
+                    </div>
+                  </CardContent>
+                </Card>
+              );
+            })
+          )}
+
+        </section>
+
+
+        {/* =====================================
+            ORDER SUMMARY
+            Left side on desktop
+            Below products on mobile
+        ====================================== */}
+
+        <aside className="
+          w-full min-w-0
+          lg:sticky lg:top-24
+        ">
+
+          <Card className="
+            overflow-hidden
+            rounded-xl
+            border border-zinc-200
+            bg-white shadow-none
+          ">
+
+            <CardHeader className="pb-3 sm:p-6">
+              <CardTitle className="text-base font-bold text-[#172554] sm:text-lg">
+                اطلاعات پرداخت
+              </CardTitle>
+
+              <CardDescription className="text-xs leading-6 text-zinc-500">
+                تمامی قیمت‌ها به دلار محاسبه شده‌اند.
               </CardDescription>
             </CardHeader>
 
-            <CardContent className="space-y-6 0">
+            <CardContent className="space-y-5">
 
-              {/* Shipping Method */}
-              <div className="space-y-2">
-                <Label>نحوه ارسال</Label>
+              {/* PRODUCT SUBTOTAL */}
+              <div className="flex items-center justify-between text-sm">
+                <span className="text-zinc-600">
+                  قیمت کالاها ({totalItems.toLocaleString("fa-IR")})
+                </span>
+
+                <span className="font-medium text-[#172554] tabular-nums">
+                  {formatPrice(subtotal)}
+                </span>
+              </div>
+
+              {/* SHIPPING */}
+              <div className="space-y-3">
+
+                <Label className="text-sm font-medium text-[#172554]">
+                  نحوه ارسال
+                </Label>
 
                 <Select
                   value={shippingMethod}
-                  onValueChange={setShippingMethod}
+                  onValueChange={(value) => {
+  if (value !== null) {
+    setShippingMethod(value);
+  }
+}}
+                  disabled={items.length === 0}
                 >
-                  <SelectTrigger className="w-full max-w-none data-[size=default]:h-auto">
-                    <SelectValue placeholder="Select shipping method" />
+                  <SelectTrigger className="
+                    h-11 w-full
+                    border border-[#DBEAFE]
+                    bg-white text-sm
+                    text-[#172554]
+                    focus:ring-2
+                    focus:ring-[#DBEAFE]
+                  ">
+                    <SelectValue placeholder="انتخاب روش ارسال" />
                   </SelectTrigger>
 
-                  <SelectContent className="!h-auto">
+                  <SelectContent className="
+                    border border-zinc-200
+                    bg-white text-[#172554]
+                    shadow-lg
+                  ">
                     {shippingMethods.map((method) => (
                       <SelectItem
                         key={method.id}
                         value={method.id}
-                        className="!h-auto"
+                        className="focus:bg-[#EFF6FF]"
                       >
-                        <div className="flex flex-col justify-between text-start">
-                          <div className="font-medium">
+                        <div className="flex flex-col gap-1">
+                          <span className="font-medium">
                             {method.name}
-                          </div>
+                          </span>
 
-                          <div className="text-muted-foreground text-sm">
+                          <span className="text-xs text-zinc-500">
                             {method.estimatedDays}
-                          </div>
+                          </span>
 
-                          <div className="font-medium">
-                            ${method.price.toFixed(2)}
-                          </div>
+                          <span className="text-xs font-semibold text-[#2457D6]">
+                            {formatPrice(method.price)}
+                          </span>
                         </div>
                       </SelectItem>
                     ))}
@@ -144,172 +466,100 @@ export default function Cartb() {
                 </Select>
               </div>
 
-              {/* Promo Code */}
-              <div className="space-y-2">
-                <Label>کد تخفیف</Label>
+              {/* SHIPPING COST */}
+              <div className="flex items-center justify-between text-sm">
+                <span className="text-zinc-600">
+                  هزینه ارسال
+                </span>
 
-                <div className="flex gap-2">
-                  <Input placeholder="Enter promo code" />
-                  <Button variant="outline">ثبت</Button>
+                <span className="font-medium text-[#172554] tabular-nums">
+                  {items.length > 0
+                    ? formatPrice(shipping)
+                    : formatPrice(0)}
+                </span>
+              </div>
+
+              {/* TOTAL */}
+              <div className="
+                flex items-center justify-between
+                border-t border-dashed
+                border-zinc-200 pt-5
+              ">
+                <span className="text-sm font-semibold text-[#172554]">
+                  جمع کل سفارش
+                </span>
+
+                <span className="
+                  text-lg font-bold
+                  text-[#2457D6]
+                  tabular-nums
+                ">
+                  {formatPrice(total)}
+                </span>
+              </div>
+
+              {/* SHIPPING INFORMATION */}
+              <div className="
+                flex items-start gap-3
+                rounded-lg
+                bg-[#EFF6FF]
+                p-3
+                text-xs leading-6
+                text-[#173B8F]
+              ">
+                <Info size={18} className="mt-1 shrink-0 text-[#2457D6]" />
+
+                <p>
+                  هزینه نهایی ارسال بر اساس زمان و روش انتخاب‌شده محاسبه می‌شود.
+                </p>
+              </div>
+
+              {/* FEATURES */}
+              <div className="
+                space-y-3
+                border-t border-zinc-100
+                pt-4
+              ">
+                <div className="flex items-center gap-2 text-xs text-zinc-600">
+                  <Package size={16} className="text-[#2457D6]" />
+                  <span>بسته‌بندی مناسب محصولات</span>
+                </div>
+
+                <div className="flex items-center gap-2 text-xs text-zinc-600">
+                  <Shield size={16} className="text-[#2457D6]" />
+                  <span>پرداخت امن</span>
+                </div>
+
+                <div className="flex items-center gap-2 text-xs text-zinc-600">
+                  <Truck size={16} className="text-[#2457D6]" />
+                  <span>ارسال سفارش به آدرس شما</span>
                 </div>
               </div>
 
-              {/* Order Summary */}
-              <div className="space-y-2">
-                <div className="flex justify-between text-sm">
-                  <span>Subtotal</span>
-                  <span>${subtotal.toFixed(2)}</span>
-                </div>
-
-                <div className="flex justify-between text-sm">
-                  <span>هزینه ارسال</span>
-                  <span>${shipping.toFixed(2)}</span>
-                </div>
-
-                <div className="flex justify-between font-medium">
-                  <span>Total</span>
-                  <span>${total.toFixed(2)}</span>
-                </div>
-              </div>
-
-              {/* Features */}
-              <div className="space-y-4 border-t pt-4">
-                <div className="flex items-center gap-2 text-sm">
-                  <Package className="text-primary h-4 w-4" />
-                  <span>Free returns within 30 days</span>
-                </div>
-
-                <div className="flex items-center gap-2 text-sm">
-                  <Shield className="text-primary h-4 w-4" />
-                  <span>Secure payment</span>
-                </div>
-
-                <div className="flex items-center gap-2 text-sm">
-                  <Truck className="text-primary h-4 w-4" />
-                  <span>Fast delivery</span>
-                </div>
-              </div>
-
-              {/* Checkout Button */}
+              {/* CHECKOUT */}
               <Button
-                className="w-full"
+                className="
+                  h-12 w-full
+                  rounded-lg
+                  bg-[#2457D6]
+                  text-sm font-bold text-white
+                  transition-colors duration-200
+                  hover:bg-[#173B8F]
+                  disabled:cursor-not-allowed
+                  disabled:opacity-50
+                "
                 disabled={items.length === 0}
               >
-                <CreditCard className="mr-2 h-4 w-4" />
+                <CreditCard size={18} className="ml-2" />
                 ثبت سفارش
               </Button>
+
             </CardContent>
           </Card>
-        </div>
 
-        {/* Main Cart Section */}
-        <div className="space-y-6 lg:col-span-2">
-
-          <div>
-            <h1 className="text-2xl font-semibold">
-              سبد خرید
-            </h1>
-
-            <p className="text-muted-foreground">
-              کالا {totalItems}
-            </p>
-          </div>
-
-          {/* Empty Cart */}
-          {items.length === 0 ? (
-            <Card className="flex flex-col items-center justify-center gap-4 py-16">
-              <ShoppingBag className="h-12 w-12 text-muted-foreground" />
-
-              <h2 className="text-lg font-semibold">
-                سبد خرید شما خالی است
-              </h2>
-
-              <p className="text-muted-foreground text-sm">
-                هنوز محصولی به سبد خرید اضافه نکرده‌اید.
-              </p>
-            </Card>
-          ) : (
-            <div className="space-y-4">
-              {items.map((item) => {
-                const discountedPrice = getDiscountedPrice(
-                  item.price,
-                  item.discount_percentage
-                );
-
-                return (
-                  <Card
-                    key={item.productId}
-                    className="overflow-hidden p-0"
-                  >
-                    <CardContent className="p-0">
-                      <div className="flex h-full flex-col md:flex-row">
-
-                        {/* Product Image */}
-                        <div className="relative h-48 w-full md:h-auto md:w-32">
-                          <img
-                            src={item.thumbnail}
-                            alt={item.title}
-                            width={500}
-                            height={500}
-                            className="h-full w-full object-cover md:w-32"
-                          />
-                        </div>
-
-                        {/* Product Details */}
-                        <div className="flex-1 p-6 pb-3">
-
-                          <div className="flex justify-between">
-                            <div>
-                              <h3 className="font-medium">
-                                {item.title}
-                              </h3>
-                            </div>
-
-                            <Button
-                              variant="ghost"
-                              size="icon"
-                              onClick={() => removeItem(item.productId)}
-                              aria-label="حذف محصول"
-                            >
-                              <Trash2 className="h-4 w-4" />
-                            </Button>
-                          </div>
-
-                          <div className="mt-4 flex items-center justify-between">
-
-                            {/* Quantity Control */}
-                            <div className="flex items-center gap-2">
-                              <CartQuantityControl
-                                productId={item.productId}
-                                quantity={item.quantity}
-                              />
-                            </div>
-
-                            {/* Product Price */}
-                            <div className="text-right">
-                              <div className="font-medium">
-                                ${(discountedPrice * item.quantity).toFixed(2)}
-                              </div>
-
-                              {item.discount_percentage > 0 && (
-                                <div className="text-muted-foreground text-sm line-through">
-                                  ${(item.price * item.quantity).toFixed(2)}
-                                </div>
-                              )}
-                            </div>
-
-                          </div>
-                        </div>
-                      </div>
-                    </CardContent>
-                  </Card>
-                );
-              })}
-            </div>
-          )}
-        </div>
+        </aside>
 
       </div>
-    </div>
+    </main>
   );
 }

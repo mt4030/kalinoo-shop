@@ -3,7 +3,7 @@ import { useLocation,useNavigate } from "react-router-dom";
 import { useSearchProducts } from "../hooks/useSearchProducts";
 import Searchform from "./SearchForm";
 import SearchSuggetion from "./SearchSuggestions";
-
+import type { FormEvent } from "react";
 const SearchInput=()=>{
 const [isSearchOpen, setIsSearchOpen] = useState(false);
 const [input, setInput] = useState("");
@@ -34,7 +34,7 @@ useEffect(() => {
   }, [location.pathname, location.search]);
 
 
-const handleSubmit = (e) => {
+const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
   e.preventDefault();
 
 
@@ -49,7 +49,7 @@ const handleSubmit = (e) => {
 
 
 return(
-    <div className="relative p-2" ref={searchRef}>
+    <div className="relative p-2  lg:w-150" ref={searchRef}>
       <Searchform
         setInput={setInput}
         handleSubmit={handleSubmit}

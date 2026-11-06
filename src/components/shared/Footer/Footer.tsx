@@ -9,7 +9,7 @@ export default function Footer() {
 <div className="mx-auto  max-w-7xl   px-8 pb-12 mt-5 ">
       <Benefit />
 </div>
-          <Desktopfotter/>
+      <Desktopfotter/>
       <Mobilefooter/>
 
      

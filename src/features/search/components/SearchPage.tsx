@@ -314,7 +314,7 @@ export default function SearchPage() {
         {/* Products */}
         <main>
           {/* Results count and sorting */}
-          <div className="mb-6 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+          <div className="mb-6 flex  flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
             <div className="flex items-center gap-3">
               <p className="text-sm text-zinc-600">
                 {total.toLocaleString("fa-IR")} محصول پیدا شد
@@ -327,7 +327,7 @@ export default function SearchPage() {
               )}
             </div>
 
-            <div className="flex items-center gap-2">
+            <div className="flex items-center gap-2 ">
               <span className="shrink-0 text-sm text-zinc-500">
                 مرتب‌سازی:
               </span>

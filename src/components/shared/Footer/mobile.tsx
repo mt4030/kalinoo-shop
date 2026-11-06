@@ -5,10 +5,10 @@ export default function Mobilefooter(){
 
 return(
     <div className="px-8 sm:hidden">
-        {/* Accordion */}
+
         <FooterAccordion />
 
-        {/* Contact */}
+     
         <div className="mt-8 pb-8">
           <h3 className="mb-5 text-lg font-bold text-zinc-900">
             تماس با ما
@@ -19,14 +19,14 @@ return(
               هر روز از ۹ صبح تا ۱۲ بامداد پاسخگوی شما هستیم.
             </p>
 
-            <p className="font-semibold text-purple-600">
+            <p className="font-semibold text-[#2457D6]">
               راهنمایی و پشتیبانی
             </p>
 
             <p>
               آدرس ایمیل:
-              <span className="mr-1 text-purple-600">
-                info@snappshop.ir
+              <span className="mr-1 text-[#2457D6]">
+                info@kalinoshop.ir
               </span>
             </p>
           </div>
@@ -35,11 +35,11 @@ return(
             <img
               src={snapplogo}
               className="w-20 shrink-0"
-              alt="Snapp Box"
+              alt="kalino Box"
             />
 
             <p className="text-sm font-medium leading-6 text-zinc-600">
-              تمامی سفارش‌های اکسپرس، توسط اسنپ‌باکس به شما تحویل داده می‌شود.
+              تمامی سفارش‌های اکسپرس، توسط کالینو به شما تحویل داده می‌شود.
             </p>
           </div>
         </div>

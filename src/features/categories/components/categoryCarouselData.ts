@@ -1,5 +1,4 @@
 import smartphoneBanner from "../../../assets/smartphones.webp"
-
 export const categoryCarouselData = {
   smartphones: {
     title: "Smartphones",

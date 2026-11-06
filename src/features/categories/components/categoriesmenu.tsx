@@ -10,7 +10,7 @@ const CategoriesMenu = () => {
   return (
     <div
       dir="rtl"
-      className="absolute right-0 top-full z-50 w-225 fade-in slide-in-from-top-2 duration-200 overflow-hidden rounded-b-xl border border-zinc-200 bg-white shadow-xl"
+      className="absolute right-0 top-full z-50 xl:w-200 md:170 w-150 fade-in slide-in-from-top-2 duration-200 overflow-hidden rounded-b-xl border border-zinc-200 bg-white shadow-xl"
     >
       <div className="flex min-h-125">
 
@@ -24,8 +24,8 @@ const CategoriesMenu = () => {
                   onMouseEnter={() => setActiveCategory(category)}
                   className={`block w-full rounded-lg px-4 py-3 text-right text-sm font-medium transition ${
                     activeCategory?.title === category.title
-                      ? "bg-white text-purple-700 shadow-sm"
-                      : "text-zinc-700 hover:bg-white hover:text-purple-700"
+                      ? "bg-white text-[#173B8F] shadow-sm"
+                      : "text-zinc-700 hover:bg-white hover:text-[#173B8F]"
                   }`}
                 >
                   {category.title}
@@ -49,7 +49,7 @@ const CategoriesMenu = () => {
   {item.slug ? (
     <Link
       to={`/products/search?category=${item.slug}`}
-      className="mb-3 block text-sm font-bold text-zinc-900 transition hover:text-purple-700"
+      className="mb-3 block text-sm font-bold text-zinc-900 transition hover:text-[#173B8F]"
     >
       {item.title}
     </Link>
@@ -64,7 +64,7 @@ const CategoriesMenu = () => {
       <Link
         key={child.title}
         to={`/products/search?category=${child.slug}`}
-        className="block text-sm text-zinc-500 transition hover:text-purple-700"
+        className="block text-sm text-zinc-500 transition hover:text-[#173B8F]"
       >
         {child.title}
       </Link>

@@ -7,8 +7,14 @@ export default function Login() {
   const [password, setPassword] = useState("")
 
   return (
-    <div className="mx-auto mt-10 w-full max-w-md rounded-2xl border border-zinc-200 bg-white p-6 shadow-sm">
-           
+<div className="
+  mx-auto mt-10
+  w-[calc(100%-2rem)]
+  max-w-md
+  rounded-[12px]
+  border border-zinc-200
+  bg-white p-6 shadow-sm
+">           
    
 <Link to={'/'}> 
 <ChevronRight size={20} />
@@ -35,7 +41,7 @@ export default function Login() {
             value={user}
             onChange={(e) => setUser(e.target.value)}
             placeholder="ایمیل یا نام کاربری"
-            className="w-full rounded-xl border border-zinc-300 px-4 py-3 text-left outline-none transition focus:border-purple-500 focus:ring-2 focus:ring-purple-100"
+            className="w-full rounded-[12px] border border-zinc-300 px-4 py-3 text-left outline-none transition focus:border-purple-500 focus:ring-2 focus:ring-purple-100"
           />
         </div>
 
@@ -50,7 +56,7 @@ export default function Login() {
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             placeholder="رمز عبور"
-            className="w-full rounded-xl border border-zinc-300 px-4 py-3 text-left outline-none transition focus:border-purple-500 focus:ring-2 focus:ring-purple-100"
+            className="w-full rounded-[12px] border border-zinc-300 px-4 py-3 text-left outline-none transition focus:border-purple-500 focus:ring-2 focus:ring-purple-100"
           />
         </div>
 
@@ -58,7 +64,7 @@ export default function Login() {
         <div className="text-right">
           <button
             type="button"
-            className="text-sm font-medium text-purple-600 hover:text-purple-700"
+            className="text-sm font-medium text-[#2457D6] hover:text-[#173B8F]"
           >
             فراموشی رمز عبور؟
           </button>
@@ -67,7 +73,7 @@ export default function Login() {
         {/* Login */}
         <button
           type="button"
-          className="w-full rounded-xl bg-purple-600 py-3 font-bold text-white transition hover:bg-purple-700"
+          className="w-full rounded-[12px] bg-[#2457D6] py-3 font-bold text-white transition hover:bg-[#173B8F]"
         >
           ورود
         </button>
@@ -77,7 +83,7 @@ export default function Login() {
           حساب کاربری ندارید؟{" "}
           <Link
             to="/auth/register"
-            className="font-bold text-purple-600 hover:text-purple-700"
+            className="font-bold text-[#2457D6] hover:text-[#173B8F]"
           >
             ثبت‌نام کنید
           </Link>

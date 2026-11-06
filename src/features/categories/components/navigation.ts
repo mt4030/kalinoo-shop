@@ -1,145 +1,153 @@
-export const navigation = [
+import type { NavigationCategory } from "@/types";
+
+export const navigation: NavigationCategory[]  = [
   {
-    title: "Electronics",slug: "electronics",
+    title: "الکترونیک",
+    slug: "electronics",
     children: [
       {
-        title: "Smartphones",
+        title: "گوشی هوشمند",
         slug: "smartphones",
       },
       {
-        title: "Tablets",
+        title: "تبلت",
         slug: "tablets",
       },
       {
-        title: "Laptops",
+        title: "لپ‌تاپ",
         slug: "laptops",
       },
       {
-        title: "Mobile Accessories",
+        title: "لوازم جانبی موبایل",
         slug: "mobile-accessories",
       },
     ],
   },
 
   {
-    title: "Fashion",
+    title: "مد و پوشاک",
+    slug: "fashion",
     children: [
       {
-        title: "Men",
+        title: "مردانه",
         children: [
           {
-            title: "Shirts",
+            title: "پیراهن مردانه",
             slug: "mens-shirts",
           },
           {
-            title: "Shoes",
+            title: "کفش مردانه",
             slug: "mens-shoes",
           },
           {
-            title: "Watches",
+            title: "ساعت مردانه",
             slug: "mens-watches",
           },
         ],
       },
 
       {
-        title: "Women",
+        title: "زنانه",
         children: [
           {
-            title: "Dresses",
+            title: "لباس و پیراهن زنانه",
             slug: "womens-dresses",
           },
           {
-            title: "Shoes",
+            title: "کفش زنانه",
             slug: "womens-shoes",
           },
           {
-            title: "Bags",
+            title: "کیف زنانه",
             slug: "womens-bags",
           },
           {
-            title: "Jewellery",
+            title: "زیورآلات زنانه",
             slug: "womens-jewellery",
           },
           {
-            title: "Watches",
+            title: "ساعت زنانه",
             slug: "womens-watches",
           },
         ],
       },
 
       {
-        title: "Tops",
+        title: "لباس زنانه",
         slug: "tops",
       },
-    ],
-  },
-
-  {
-    title: "Beauty",
-    children: [
       {
-        title: "Skin Care",
-        slug: "skin-care",
-      },
-      {
-        title: "Fragrances",
-        slug: "fragrances",
-      },
-      {
-        title: "Sunglasses",
+        title: "عینک آفتابی",
         slug: "sunglasses",
       },
     ],
   },
 
   {
-    title: "Home & Living",
+    title: "خانه و آشپزخانه",
+    slug: "home-kitchen",
     children: [
       {
-        title: "Furniture",
+        title: "مبلمان",
         slug: "furniture",
       },
       {
-        title: "Home Decoration",
+        title: "دکوراسیون خانه",
         slug: "home-decoration",
       },
       {
-        title: "Kitchen Accessories",
+        title: "لوازم آشپزخانه",
         slug: "kitchen-accessories",
       },
     ],
   },
 
   {
-    title: "Food & Grocery",
+    title: "زیبایی و مراقبت شخصی",
+    slug: "beauty-personal-care",
     children: [
       {
-        title: "Groceries",
-        slug: "groceries",
+        title: "زیبایی و آرایشی",
+        slug: "beauty",
+      },
+      {
+        title: "مراقبت از پوست",
+        slug: "skin-care",
+      },
+      {
+        title: "عطر و ادکلن",
+        slug: "fragrances",
       },
     ],
   },
 
   {
-    title: "Sports",
+    title: "مواد غذایی و خواربار",
+    slug: "groceries",
+    children: [],
+  },
+
+  {
+    title: "ورزش و فضای باز",
+    slug: "sports-outdoors",
     children: [
       {
-        title: "Sports Accessories",
+        title: "لوازم ورزشی",
         slug: "sports-accessories",
       },
     ],
   },
 
   {
-    title: "Vehicles",
+    title: "خودرو و وسایل نقلیه",
+    slug: "automotive",
     children: [
       {
-        title: "Cars",
+        title: "خودرو",
         slug: "vehicle",
       },
       {
-        title: "Motorcycles",
+        title: "موتورسیکلت",
         slug: "motorcycle",
       },
     ],

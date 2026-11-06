@@ -28,7 +28,7 @@ export default function MobileBottomNav() {
 
         {/* دسته بندی */}
         <Link
-          to="/products/search"
+          to="/categories"
           className="flex min-w-16 flex-col items-center gap-1 text-zinc-600 transition hover:text-purple-600"
         >
           <Menu size={22} />

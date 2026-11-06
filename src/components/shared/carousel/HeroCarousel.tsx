@@ -42,8 +42,8 @@ const [api, setApi] = useState<CarouselApi>()
 
 <CarouselDots slides={slides} api={api} classname={''} />
 
-<CarouselPrevious className="left-70 hidden sm:block hover:bg-gray-200 hover:text-gray-900  rounded top-auto bottom-10 translate-y-0"/>
-<CarouselNext className="left-80 hidden sm:block hover:bg-gray-200 hover:text-gray-900   rounded right-auto top-auto bottom-10 translate-y-0"/>
+<CarouselPrevious className="left-70 hidden sm:block hover:bg-[#DBEAFE]0 hover:text-gray-900 border-[#173B8F]  rounded top-auto bottom-10 translate-y-0"/>
+<CarouselNext className="left-80 hidden sm:block hover:bg-[#DBEAFE] hover:text-gray-900 border-[#173B8F]  rounded right-auto top-auto bottom-10 translate-y-0"/>
 
     </Carousel>
   )

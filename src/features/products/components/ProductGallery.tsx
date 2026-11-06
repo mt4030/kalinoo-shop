@@ -23,7 +23,7 @@ export default function ProductGallery({ images }: ProductGalleryProps) {
 
   if (!images || images.length === 0) {
     return (
-      <div className="flex h-64 items-center justify-center rounded-xl bg-zinc-100">
+      <div className="flex h-64 items-center justify-center rounded-[12px] bg-zinc-100">
         No images available
       </div>
     );
@@ -31,7 +31,7 @@ export default function ProductGallery({ images }: ProductGalleryProps) {
 
   return (
     <div className="w-full sm:w-100">
-      <div className="hidden h-100 w-full items-center justify-center rounded-xl border border-zinc-200 bg-white p-5 sm:flex">
+      <div className="hidden h-100 w-full items-center justify-center rounded-[12px] border border-zinc-200 bg-white p-5 sm:flex">
         <img
           src={selectedImage}
           alt="Product"
@@ -49,9 +49,9 @@ export default function ProductGallery({ images }: ProductGalleryProps) {
                 onClick={() => setSelectedImage(image)}
               >
                 <div
-                  className={`flex cursor-pointer items-center justify-center rounded-lg border p-2 transition sm:h-20 ${
+                  className={`flex cursor-pointer  items-center justify-center rounded-[12px]  p-2 transition sm:h-20 ${
                     selectedImage === image
-                      ? "sm:border-purple-600"
+                      ? " sm:border-8   border-blue-500/20  "
                       : "border-none sm:border-zinc-200 sm:hover:border-zinc-400"
                   }`}
                 >

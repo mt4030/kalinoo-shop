@@ -1,7 +1,7 @@
 import { Search } from "lucide-react";
 import { ArrowRight } from "lucide-react"
-
-const Searchform=({setInput,handleSubmit,handelfocus,input,setIsSearchOpen,isSearchOpen})=>{
+import type { SearchFormProps } from "@/types";
+const Searchform=({setInput,handleSubmit,handelfocus,input,setIsSearchOpen,isSearchOpen}: SearchFormProps)=>{
 
 
     return(

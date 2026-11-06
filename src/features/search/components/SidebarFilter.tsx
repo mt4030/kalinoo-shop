@@ -85,7 +85,7 @@ function FilterSection({
 
   return (
     <Collapsible open={open} onOpenChange={setOpen}>
-      <div className="py-3">
+      <div className="py-3 ">
         <CollapsibleTrigger className="flex w-full items-center justify-between py-1 text-right text-sm font-semibold">
           <span>{title}</span>
 
@@ -147,7 +147,7 @@ export default function SidebarFilter({
 
   // Rendered in both the desktop sidebar and mobile drawer.
   const renderFilterSections = () => (
-    <div className="space-y-1">
+    <div className="space-y-1 bg-white ">
       {/* CATEGORY */}
       <FilterSection title="دسته‌بندی">
         {isCategoriesError ? (
@@ -299,6 +299,7 @@ export default function SidebarFilter({
 />
 
         <div className="mt-3 flex justify-between text-xs text-zinc-500">
+    
           <span>ارزان‌ترین</span>
           <span>گران‌ترین</span>
         </div>
@@ -366,79 +367,89 @@ export default function SidebarFilter({
 
   return (
     <>
-      {/* MOBILE FILTER DRAWER */}
-      <div className="lg:hidden">
-        <Sheet open={mobileOpen} onOpenChange={setMobileOpen}>
-          <Button
-            variant="outline"
-            className="w-full gap-2"
-            onClick={() => setMobileOpen(true)}
-          >
-            <SlidersHorizontal className="h-4 w-4" />
-            فیلترها
+     {/* MOBILE FILTER DRAWER */}
+<div className="lg:hidden">
+  <Sheet open={mobileOpen} onOpenChange={setMobileOpen}>
+    <Button
+      variant="outline"
+      className="w-full gap-2 border-[#DBEAFE] bg-white text-[#2457D6] hover:bg-[#EFF6FF]"
+      onClick={() => setMobileOpen(true)}
+    >
+      <SlidersHorizontal className="h-4 w-4" />
+      فیلترها
 
-            {activeFiltersCount > 0 && (
-              <Badge variant="secondary">
-                {activeFiltersCount}
-              </Badge>
-            )}
-          </Button>
+      {activeFiltersCount > 0 && (
+        <Badge variant="secondary">
+          {activeFiltersCount}
+        </Badge>
+      )}
+    </Button>
 
-          <SheetContent
-            side="right"
-            dir="rtl"
-            showCloseButton={false}
-            className="flex w-[min(24rem,90vw)] flex-col gap-0 p-0"
-          >
-            <SheetHeader className="border-b px-5 py-4 text-right">
-              <div className="flex items-center justify-between">
-                <SheetTitle className="text-right">
-                  فیلتر محصولات
-                </SheetTitle>
+    <SheetContent
+      side="right"
+      dir="rtl"
+      showCloseButton={false}
+      className="
+        flex w-[min(24rem,90vw)]
+        flex-col gap-0
+        overflow-hidden
+        border-l border-zinc-200
+        bg-white text-[#172554]
+        p-0 shadow-xl
+      "
+    >
+      {/* Header */}
+      <SheetHeader className="border-b border-zinc-200 bg-white px-5 py-4 text-right">
+        <div className="flex items-center justify-between">
+          <SheetTitle className="text-right text-[#172554]">
+            فیلتر محصولات
+          </SheetTitle>
 
-                <SheetClose className="rounded-md p-2 hover:bg-zinc-100">
-                  <X className="h-4 w-4" />
-                </SheetClose>
-              </div>
-            </SheetHeader>
+          <SheetClose className="rounded-md p-2 transition hover:bg-[#EFF6FF] hover:text-[#2457D6]">
+            <X className="h-4 w-4" />
+          </SheetClose>
+        </div>
+      </SheetHeader>
 
-            <div className="flex items-center justify-between border-b px-5 py-3">
-              <span className="text-xs text-zinc-500">
-                {activeFiltersCount} فیلتر فعال
-              </span>
+      {/* Active Filters */}
+      <div className="flex items-center justify-between border-b border-zinc-200 bg-white px-5 py-3">
+        <span className="text-xs text-zinc-500">
+          {activeFiltersCount} فیلتر فعال
+        </span>
 
-              <Button
-                variant="ghost"
-                size="sm"
-                disabled={activeFiltersCount === 0}
-                onClick={onClearFilters}
-              >
-                پاک کردن همه
-              </Button>
-            </div>
-
-            <ScrollArea className="min-h-0 flex-1 px-5">
-              {renderFilterSections()}
-            </ScrollArea>
-
-            <SheetFooter className="flex-row border-t p-4">
-              <Button
-                variant="outline"
-                className="flex-1"
-                disabled={activeFiltersCount === 0}
-                onClick={onClearFilters}
-              >
-                پاک کردن همه
-              </Button>
-
-              <SheetClose className="flex-1 rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground">
-                مشاهده محصولات
-              </SheetClose>
-            </SheetFooter>
-          </SheetContent>
-        </Sheet>
+        <Button
+          variant="ghost"
+          size="sm"
+          disabled={activeFiltersCount === 0}
+          onClick={onClearFilters}
+        >
+          پاک کردن همه
+        </Button>
       </div>
 
+      {/* Filter Sections */}
+      <ScrollArea className="min-h-0 flex-1 bg-white px-5">
+        {renderFilterSections()}
+      </ScrollArea>
+
+      {/* Footer */}
+      <SheetFooter className="flex-row border-t border-zinc-200 bg-white p-4">
+        <Button
+          variant="outline"
+          className="flex-1 border-[#DBEAFE] bg-white text-[#2457D6] hover:bg-[#EFF6FF]"
+          disabled={activeFiltersCount === 0}
+          onClick={onClearFilters}
+        >
+          پاک کردن همه
+        </Button>
+
+        <SheetClose className="flex-1 rounded-md bg-[#2457D6] px-4 py-2 text-sm font-medium text-white transition hover:bg-[#173B8F]">
+          مشاهده محصولات
+        </SheetClose>
+      </SheetFooter>
+    </SheetContent>
+  </Sheet>
+</div>
       {/* DESKTOP FILTER SIDEBAR */}
       <aside
         dir="rtl"
