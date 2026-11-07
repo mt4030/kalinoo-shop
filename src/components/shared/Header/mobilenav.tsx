@@ -1,13 +1,20 @@
-
 import {
   Store,
   Menu,
   ShoppingCart,
   UserRound,
-} from "lucide-react"
-import { Link } from "react-router-dom"
+} from "lucide-react";
+
+import { Link } from "react-router-dom";
+import { useAuth } from "@/features/auth/context/AuthProvider";
 
 export default function MobileBottomNav() {
+  const { session, isLoading } = useAuth();
+
+  const isLoggedIn =
+    session.mode === "authenticated" ||
+    session.mode === "demo";
+
   return (
     <nav
       dir="rtl"
@@ -48,19 +55,31 @@ export default function MobileBottomNav() {
           </span>
         </Link>
 
-        {/* ورود و عضویت */}
-        <Link
-          to="/auth/login"
-          className="flex min-w-16 flex-col items-center gap-1 text-zinc-600 transition hover:text-purple-600"
-        >
-          <UserRound size={22} />
-          <span className="text-xs font-medium">
-            ورود و عضویت
-          </span>
-        </Link>
+        {/* ورود و عضویت / حساب کاربری */}
+        {isLoading ? (
+          <div
+            className="flex min-w-16 flex-col items-center gap-1 text-zinc-400"
+            aria-label="در حال بررسی حساب کاربری"
+          >
+            <UserRound size={22} />
+            <span className="text-xs font-medium">
+              ...
+            </span>
+          </div>
+        ) : (
+          <Link
+            to={isLoggedIn ? "/profile" : "/auth/login"}
+            className="flex min-w-16 flex-col items-center gap-1 text-zinc-600 transition hover:text-purple-600"
+          >
+            <UserRound size={22} />
+
+            <span className="whitespace-nowrap text-xs font-medium">
+              {isLoggedIn ? "حساب کاربری" : "ورود و عضویت"}
+            </span>
+          </Link>
+        )}
 
       </div>
     </nav>
-  )
+  );
 }
-
